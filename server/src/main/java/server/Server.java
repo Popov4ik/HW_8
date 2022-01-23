@@ -99,6 +99,22 @@ public class Server {
         }
     }
 
+    public void broadcastEnter(ClientHandler sender) {
+        String message = String.format("Пользователь [ %s ] вошел в чат!", sender.getNickname());
+        for (ClientHandler c : clients) {
+            if (!c.equals(sender)) {
+                c.sendMsg(message);
+            }
+        }
+    }
+
+    public void broadcastExit(ClientHandler sender) {
+        String message = String.format("Пользователь [ %s ] вышел из чата!", sender.getNickname());
+        for (ClientHandler c : clients) {
+            c.sendMsg(message);
+        }
+    }
+
     public AuthService getAuthService() {
         return authService;
     }
