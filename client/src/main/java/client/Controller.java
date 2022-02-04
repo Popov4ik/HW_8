@@ -104,7 +104,7 @@ public class Controller implements Initializable {
                     while (true) {
                         String str = in.readUTF();
 
-                        if (str.startsWith("/")) {
+                        if (str.startsWith(ServiceMessages.SERVICE_MESSAGE)) {
                             if (str.equals(ServiceMessages.EXIT)) {
                                 break;
                             }
@@ -127,13 +127,13 @@ public class Controller implements Initializable {
                     while (authenticated) {
                         String str = in.readUTF();
 
-                        if (str.startsWith("/")) {
+                        if (str.startsWith(ServiceMessages.SERVICE_MESSAGE)) {
                             if (str.equals(ServiceMessages.EXIT)) {
                                 setAuthenticated(false);
                                 break;
                             }
 
-                            if (str.startsWith("/clientlist")) {
+                            if (str.startsWith(ServiceMessages.CLIENT_LIST)) {
                                 String[] token = str.split(" ");
                                 Platform.runLater(() -> {
                                     clientList.getItems().clear();

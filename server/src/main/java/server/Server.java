@@ -1,15 +1,15 @@
 package server;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
+import service.ServiceMessages;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+
+
+
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Server {
@@ -22,7 +22,12 @@ public class Server {
 
     public Server() {
         clients = new CopyOnWriteArrayList<>();
-        authService = new SimpleAuthService();
+        authService = new DbAuthService();
+        try {
+            DataSource.connect();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
 
         try {
             server = new ServerSocket(PORT);
@@ -36,6 +41,7 @@ public class Server {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            DataSource.disconnect();
             System.out.println("Server stop");
             try {
                 server.close();

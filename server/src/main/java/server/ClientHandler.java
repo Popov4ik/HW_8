@@ -69,9 +69,9 @@ public class ClientHandler {
                             }
                             if (server.getAuthService()
                                     .registration(token[1], token[2], token[3])) {
-                                sendMsg("/reg_ok");
+                                sendMsg(ServiceMessages.REG_OK);
                             } else {
-                                sendMsg("/reg_no");
+                                sendMsg(ServiceMessages.REG_NO);
                             }
                         }
                     }
@@ -79,7 +79,7 @@ public class ClientHandler {
                     while (authenticated) {
                         String str = in.readUTF();
 
-                        if (str.startsWith("/")) {
+                        if (str.startsWith(ServiceMessages.SERVICE_MESSAGE)) {
                             if (str.equals(ServiceMessages.EXIT)) {
                                 sendMsg(ServiceMessages.EXIT);
                                 server.broadcastExit(this);
@@ -98,13 +98,16 @@ public class ClientHandler {
                         }
                     }
 
-                    //SocketTimeoutException
                 } catch (SocketTimeoutException e) {
                     sendMsg(ServiceMessages.EXIT);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
-                    System.out.println("Client disconnect!");
+                    if (getNickname() == null) {
+                        System.out.println("Client unauthorized disconnect!");
+                    } else {
+                        System.out.println(String.format("Client %s disconnect!", getNickname()));
+                    }
                     server.unsubscribe(this);
                     try {
                         socket.close();
