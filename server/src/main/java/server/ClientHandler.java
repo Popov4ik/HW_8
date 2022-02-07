@@ -36,7 +36,6 @@ public class ClientHandler {
                             sendMsg(ServiceMessages.EXIT);
                             break;
                         }
-//                        if (str.startsWith("/auth")) {
                         if (str.startsWith(ServiceMessages.AUTH)) {
                             String[] token = str.split(" ", 3);
                             if (token.length < 3) {

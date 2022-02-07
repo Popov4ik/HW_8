@@ -111,6 +111,7 @@ public class Controller implements Initializable {
                             if (str.startsWith(ServiceMessages.AUTH_OK)) {
                                 nickname = str.split(" ")[1];
                                 setAuthenticated(true);
+                                textArea.appendText(ChatHistory.getHundredLines(nickname));
                                 break;
                             }
                             if (str.startsWith(ServiceMessages.REGISTRATION)) {
@@ -145,6 +146,7 @@ public class Controller implements Initializable {
 
                         } else {
                             textArea.appendText(str + "\n");
+                            ChatHistory.chatHistoryWrite(nickname,str+"\n");
                         }
                     }
                 } catch (IOException e) {
@@ -152,6 +154,7 @@ public class Controller implements Initializable {
                 } finally {
                     try {
                         socket.close();
+                        ChatHistory.closeTheChatHistory();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
