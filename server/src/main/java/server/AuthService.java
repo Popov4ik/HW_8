@@ -1,5 +1,7 @@
 package server;
 
+import java.sql.SQLException;
+
 public interface AuthService {
     /**
      * Получение никнейма по логину и паролю
